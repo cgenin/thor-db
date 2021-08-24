@@ -11,7 +11,9 @@ import io.vavr.control.Option;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-public class Constraints {
+import java.io.Serializable;
+
+public class Constraints implements Serializable {
   public Set<UniqueIndex> uniques = HashSet.empty();
   public Set<ExactIndex> exacts = HashSet.empty();
 
@@ -59,7 +61,7 @@ public class Constraints {
   }
 
   public void removeIndex(List<JsonObject> results) {
-    results.flatMap(o -> Commons.extractIdLoki(o)
+    results.flatMap(o -> Commons.extractIdThor(o)
       .map(idLoki -> Tuple.of(idLoki, o))
     )
       .forEach(t -> removeIndex(t._1, t._2));

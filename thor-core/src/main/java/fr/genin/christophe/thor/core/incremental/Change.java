@@ -2,9 +2,10 @@ package fr.genin.christophe.thor.core.incremental;
 
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Change {
+public class Change implements Serializable {
   public final String name;
   public final Operation operation;
   public final JsonObject obj;

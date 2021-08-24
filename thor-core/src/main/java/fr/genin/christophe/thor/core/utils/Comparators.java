@@ -152,7 +152,7 @@ public class Comparators {
   }
 
   public static int sortHelper(Object prop1, Object prop2) {
-    return sortHelper(prop1, prop2);
+    return sortHelper(prop1, prop2, false);
   }
 
   public static int sortHelper(Object prop1, Object prop2, boolean desc) {

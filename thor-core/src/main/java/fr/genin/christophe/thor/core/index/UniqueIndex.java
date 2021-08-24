@@ -6,11 +6,12 @@ import io.vavr.collection.Map;
 import io.vavr.control.Option;
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static fr.genin.christophe.thor.core.utils.Commons.ID;
 
-public class UniqueIndex {
+public class UniqueIndex implements Serializable {
   public final String field;
   private Map<Object, JsonObject> keyMap = HashMap.empty();
   private Map<Long, Object> lokiMap = HashMap.empty();

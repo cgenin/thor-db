@@ -371,7 +371,7 @@ public class Collection extends ThorEventEmitter implements Serializable {
     }
 
     public Try<List<JsonObject>> removeBatch(List<JsonObject> objs) {
-        return Try.of(() -> objs.flatMap(o -> extractIdLoki(o)))
+        return Try.of(() -> objs.flatMap(o -> extractIdThor(o)))
                 .flatMap(this::removeBatchById);
     }
 

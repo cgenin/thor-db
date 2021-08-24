@@ -1,9 +1,10 @@
 package fr.genin.christophe.thor.core.options;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CollectionOptions {
+public class CollectionOptions implements Serializable {
   private boolean disableMeta = false;
   private boolean asyncListeners = false;
   private boolean disableDeltaChangesApi = true;

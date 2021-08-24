@@ -8,9 +8,10 @@ import io.vavr.collection.Map;
 import io.vavr.control.Option;
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ExactIndex {
+public class ExactIndex implements Serializable {
   private Map<Object, List<JsonObject>> index = HashMap.empty();
   public final String field;
 
@@ -28,23 +29,23 @@ public class ExactIndex {
     return exactIndex;
   }
 
-  public synchronized void add(Object key, JsonObject val) {
+  public  void add(Object key, JsonObject val) {
     final List<JsonObject> n = get(key).getOrElse(List.empty()).append(val);
     index = index.put(key, n);
   }
 
-  public synchronized void remove(Object key, JsonObject val) {
+  public  void remove(Object key, JsonObject val) {
     final List<JsonObject> n = get(key).getOrElse(List.empty()).remove(val);
     index = index.put(key, n);
   }
 
-  public synchronized void removeValue(JsonObject val) {
+  public  void removeValue(JsonObject val) {
     index = index.map(t -> Tuple.of(t._1, t._2.remove(val)))
       .filter(t -> !t._2.isEmpty())
       .toMap(Tuple2::_1, Tuple2::_2);
   }
 
-  public synchronized void clear() {
+  public  void clear() {
     index = HashMap.empty();
   }
 

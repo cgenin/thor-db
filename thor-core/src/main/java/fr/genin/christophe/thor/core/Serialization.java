@@ -16,6 +16,7 @@ import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
 
 import static fr.genin.christophe.thor.core.utils.Commons.TO_INTEGER;
@@ -25,7 +26,7 @@ public interface Serialization {
 
     Logger LOG = LoggerFactory.getLogger(Serialization.class);
     Function<byte[], Option<String>> BYTES_TO_STRING = bytes -> Option.of(bytes)
-            .map(b -> new String(bytes))
+            .map(b -> new String(bytes, StandardCharsets.UTF_8))
             .filter(s -> !s.isEmpty());
 
     static void appendData(List<JsonObject> obj, Collection collection) {

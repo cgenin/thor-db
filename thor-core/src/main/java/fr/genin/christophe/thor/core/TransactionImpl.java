@@ -5,6 +5,8 @@ import io.vavr.collection.List;
 import io.vavr.control.Option;
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
+
 public class TransactionImpl implements Transactional {
 
   private CachedCollection cached;
@@ -33,7 +35,7 @@ public class TransactionImpl implements Transactional {
       c.dynamicViews().forEach(DynamicView::commit);
   }
 
-  private static class CachedCollection {
+  private static class CachedCollection implements Serializable {
     private final List<JsonObject> cachedData;
     private final List<Long> cachedIndex;
     private final List<Index> cachedBinaryIndex;

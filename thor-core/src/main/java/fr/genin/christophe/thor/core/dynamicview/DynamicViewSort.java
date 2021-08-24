@@ -6,7 +6,6 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
@@ -24,12 +23,8 @@ public class DynamicViewSort implements Serializable {
     public static JsonObject to(DynamicViewSort dynamicViewSort) {
         final JsonObject entries = new JsonObject()
                 .put("dirty", dynamicViewSort.dirty);
-        dynamicViewSort.simpleCriteria.peek(sc -> {
-            entries.put("simpleCriteria", JsonObject.mapFrom(sc));
-        });
-        dynamicViewSort.sortCriteria.peek(sc -> {
-            entries.put("sortCriteria", JsonObject.mapFrom(sc));
-        });
+        dynamicViewSort.simpleCriteria.peek(sc -> entries.put("simpleCriteria", JsonObject.mapFrom(sc)));
+        dynamicViewSort.sortCriteria.peek(sc -> entries.put("sortCriteria", JsonObject.mapFrom(sc)));
         return entries;
     }
 
@@ -59,9 +54,8 @@ public class DynamicViewSort implements Serializable {
 
     public Option<Consumer<Resultset>> queueSortPhase() {
 
-        return sortFunction.map(c -> (Consumer<Resultset>) r -> {
-            r.sort(c);
-        })
+        return sortFunction
+                .map(c -> (Consumer<Resultset>) r -> r.sort(c))
                 .orElse(() -> sortCriteria.map(p -> (Consumer<Resultset>) r -> {
                             r.compoundsortWithDesc(p.value());
                         })
@@ -80,25 +74,6 @@ public class DynamicViewSort implements Serializable {
         return sortFunction.isDefined() || sortCriteria.isDefined() || simpleCriteria.isDefined();
     }
 
-
-    public void applySortCriteria(JsonArray arr) {
-        if (Objects.nonNull(arr) && !arr.isEmpty()) {
-            if (arr.getValue(0) instanceof JsonArray) {
-                applySortCriteriaWithDesc(List.ofAll(arr)
-                        .map(v -> (JsonArray) v)
-                        .map(v -> {
-                            final String string = v.getString(0);
-                            final Boolean desc = v.getBoolean(1);
-                            return Tuple.of(string, desc);
-                        }));
-            } else {
-                applySortCriteria(List.ofAll(arr)
-                        .map(Object::toString)
-                        .map(SimpleCriteria::new)
-                );
-            }
-        }
-    }
 
     public void applySortCriteriaWithDesc(List<Tuple2<String, Boolean>> criterias) {
         Objects.requireNonNull(criterias);

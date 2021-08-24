@@ -105,25 +105,7 @@ public class Thor {
                 })
                 .toTry();
 
-        /*
-        final Promise<Boolean> promise = Promise.make(executor);
-        vertx.eventBus().<Buffer>request(Infrastructure.LOAD, filename,
-                new DeliveryOptions().setSendTimeout(2000L),
-                ar -> {
-                    System.out.println(ar);
-                    if (ar.succeeded()) {
 
-                        promise.success(true);
-                        return;
-                    }
-                    final Throwable ex = ar.cause();
-
-                    promise.failure(ex);
-
-                });
-        return promise.future();
-
-         */
     }
 
     public void loadJSON(byte[] serializedDb) {
@@ -143,28 +125,14 @@ public class Thor {
                     }
                 })
                 .toTry();
-        /*
-        final Promise<Boolean> promise = Promise.make();
-        vertx.eventBus().<String>request(Infrastructure.DELETE, new JsonObject()
-                        .put("filename", filename),
-                ar -> {
-                    if (ar.succeeded()) {
 
-                        promise.success(true);
-                        return;
-                    }
-                    promise.failure(ar.cause());
-                });
-        return promise.future();
-
-         */
     }
 
     public Try<Boolean> saveDatabase() {
         return Try.of(() -> {
-            this.autosaveClearFlags();
-            return this.serialize();
-        })
+                    this.autosaveClearFlags();
+                    return this.serialize();
+                })
                 .flatMap(buffer -> infrastructure
                         .save(new FileToSave(filename, buffer))
                         .toTry()
@@ -218,9 +186,7 @@ public class Thor {
         }
         final Collection collection = new Collection(infrastructure, name, options);
 
-        synchronized (this) {
-            this.collections = this.collections.append(collection);
-        }
+        this.collections = this.collections.append(collection);
         return collection;
     }
 
@@ -229,7 +195,7 @@ public class Thor {
         return collections;
     }
 
-    public synchronized void removeCollection(String collectionName) {
+    public void removeCollection(String collectionName) {
         collections = collections.removeFirst(c -> c.name().equals(collectionName));
     }
 
@@ -237,7 +203,7 @@ public class Thor {
         return collections.find(c -> c.name().equals(collectionName));
     }
 
-    public synchronized void loadCollection(Collection collection) {
+    public void loadCollection(Collection collection) {
         collections = collections.append(collection);
     }
 

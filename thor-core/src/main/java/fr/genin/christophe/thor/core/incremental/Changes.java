@@ -8,10 +8,11 @@ import io.vavr.control.Option;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
-public class Changes {
+public class Changes implements Serializable {
   private final CollectionOptions options;
   private List<Change> changes = List.empty();
 

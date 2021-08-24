@@ -1,8 +1,9 @@
 package fr.genin.christophe.thor.core;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Ttl {
+public class Ttl implements Serializable {
   private Long age;
   private Integer ttlInterval;
   private Long daemon;

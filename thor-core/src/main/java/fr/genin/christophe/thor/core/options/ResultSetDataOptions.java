@@ -1,6 +1,8 @@
 package fr.genin.christophe.thor.core.options;
 
-public class ResultSetDataOptions {
+import java.io.Serializable;
+
+public class ResultSetDataOptions implements Serializable {
   private boolean forceClones = false;
   private boolean removeMeta = false;
 

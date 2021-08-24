@@ -1,6 +1,8 @@
 package fr.genin.christophe.thor.core;
 
-public interface Transactional {
+import java.io.Serializable;
+
+public interface Transactional extends Serializable {
 
 
   static Transactional build(boolean transactional) {

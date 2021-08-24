@@ -4,12 +4,10 @@ import fr.genin.christophe.thor.core.infrastructure.FileToSave;
 import io.vavr.concurrent.Future;
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.function.Consumer;
 
-public interface Infrastructure {
-    String LOAD = "AdaptersEventBus.Load";
-    String SAVE = "AdaptersEventBus..Save";
-    String DELETE = "AdaptersEventBus..Delete";
+public interface Infrastructure extends Serializable {
 
     Future<byte[]> loadDatabase(String filename) ;
 
