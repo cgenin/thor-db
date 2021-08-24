@@ -1,0 +1,103 @@
+{
+  "type" : "record",
+  "name" : "AvroThor",
+  "namespace" : "fr.genin.christophe.thor.core.serialization.avro",
+  "fields" : [ {
+    "name" : "collections",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "AvroCollection",
+        "fields" : [ {
+          "name" : "name",
+          "type" : "string"
+        }, {
+          "name" : "data",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "default" : [ ]
+        }, {
+          "name" : "binaryIndices",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "default" : [ ]
+        }, {
+          "name" : "uniques",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "default" : [ ]
+        }, {
+          "name" : "exacts",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "default" : [ ]
+        }, {
+          "name" : "transforms",
+          "type" : {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "AvroTransform",
+              "fields" : [ {
+                "name" : "name",
+                "type" : "string"
+              }, {
+                "name" : "operations",
+                "type" : {
+                  "type" : "array",
+                  "items" : "string"
+                },
+                "default" : [ ]
+              } ]
+            }
+          },
+          "default" : [ ]
+        }, {
+          "name" : "dynamicViews",
+          "type" : {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "AvroDynamicView",
+              "fields" : [ {
+                "name" : "name",
+                "type" : "string"
+              }, {
+                "name" : "filterPipeline",
+                "type" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "record",
+                    "name" : "AvroDynamicViewFilter",
+                    "fields" : [ {
+                      "name" : "type",
+                      "type" : "string"
+                    }, {
+                      "name" : "val",
+                      "type" : "string"
+                    }, {
+                      "name" : "uid",
+                      "type" : "string"
+                    } ]
+                  }
+                },
+                "default" : [ ]
+              } ]
+            }
+          },
+          "default" : [ ]
+        } ]
+      }
+    },
+    "default" : [ ]
+  } ]
+}
