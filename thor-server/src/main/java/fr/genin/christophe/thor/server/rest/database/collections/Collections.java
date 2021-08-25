@@ -163,9 +163,9 @@ public class Collections {
             description = "Get an data object by id from an collection.")
     @Tags(@Tag(name = TAG_COLL))
     @Route(path = "/collections/:collectionName/data/:idLoki", methods = GET)
-    public JsonObject clearData(@Param("databaseName") String databaseName,
-                                @Param("collectionName") String collectionName,
-                                @Param("idLoki") Long idLoki
+    public JsonObject get(@Param("databaseName") String databaseName,
+                          @Param("collectionName") String collectionName,
+                          @Param("idLoki") Long idLoki
     ) {
         return databasePort.getCollection(databaseName, collectionName)
                 .flatMap(c -> c.get(idLoki))
