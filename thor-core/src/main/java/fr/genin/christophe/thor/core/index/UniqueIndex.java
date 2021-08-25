@@ -14,7 +14,7 @@ import static fr.genin.christophe.thor.core.utils.Commons.ID;
 public class UniqueIndex implements Serializable {
   public final String field;
   private Map<Object, JsonObject> keyMap = HashMap.empty();
-  private Map<Long, Object> lokiMap = HashMap.empty();
+  private Map<Long, Object> thorMap = HashMap.empty();
 
   public static JsonObject to(UniqueIndex uniqueIndex) {
     return new JsonObject().put("field", uniqueIndex.field);
@@ -27,7 +27,7 @@ public class UniqueIndex implements Serializable {
   public UniqueIndex copy() {
     final UniqueIndex uniqueIndex = new UniqueIndex(field);
     uniqueIndex.keyMap = keyMap.toMap(t -> t._1, t -> t._2.copy());
-    uniqueIndex.lokiMap = lokiMap.toMap(t -> t._1, t -> t._2);
+    uniqueIndex.thorMap = thorMap.toMap(t -> t._1, t -> t._2);
     return uniqueIndex;
   }
 
@@ -39,7 +39,7 @@ public class UniqueIndex implements Serializable {
       } else {
         synchronized (this) {
           this.keyMap = this.keyMap.put(fieldValue, obj);
-          this.lokiMap = this.lokiMap.put(obj.getLong(ID), fieldValue);
+          this.thorMap = this.thorMap.put(obj.getLong(ID), fieldValue);
         }
       }
     }
@@ -49,15 +49,16 @@ public class UniqueIndex implements Serializable {
     return keyMap.get(key);
   }
 
+  @SuppressWarnings("unused")
   public Option<JsonObject> byId(Long key) {
-    return lokiMap.get(key)
+    return thorMap.get(key)
       .flatMap(k -> keyMap.get(k));
   }
 
   public void update(JsonObject obj, JsonObject doc) {
     final Object v = doc.getValue(field);
 
-    final Option<Object> old = lokiMap.get(obj.getLong(ID));
+    final Option<Object> old = thorMap.get(obj.getLong(ID));
     if (old.map(cacheValue -> !cacheValue.equals(v))
       .getOrElse(true)
     ) {
@@ -77,14 +78,14 @@ public class UniqueIndex implements Serializable {
       .getOrElseThrow(() -> new IllegalStateException("Key is not in unique index: " + this.field));
     synchronized (this) {
       keyMap = keyMap.remove(key);
-      lokiMap = lokiMap.remove(obj.getLong(ID));
+      thorMap = thorMap.remove(obj.getLong(ID));
     }
   }
 
   public void clear() {
     synchronized (this) {
       this.keyMap = HashMap.empty();
-      this.lokiMap = HashMap.empty();
+      this.thorMap = HashMap.empty();
     }
   }
 
@@ -106,7 +107,7 @@ public class UniqueIndex implements Serializable {
     if (tupleKey.isDefined()) {
       keyMap = keyMap.remove(tupleKey.get()._1);
     }
-    lokiMap = lokiMap.remove(idLoki);
+    thorMap = thorMap.remove(idLoki);
   }
 
 

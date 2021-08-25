@@ -148,11 +148,6 @@ public class Resultset {
                 .getOrElse(this);
     }
 
-    public JsonObject toJSON() {
-        return new JsonObject().put("filteredrows", filteredrows)
-                .put("filterInitialized", filterInitialized);
-    }
-
     public Resultset limit(int qty) {
         if (filteredrows.isEmpty()) {
             filteredrows = collection.prepareFullDocIndex();
@@ -289,7 +284,7 @@ public class Resultset {
                 .map(Tuple2::_1);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public Resultset simplesort(String propname, boolean desc) {
         Objects.requireNonNull(propname, "propname is null");
         if (filteredrows.isEmpty()) {
@@ -356,6 +351,7 @@ public class Resultset {
         return this;
     }
 
+    @SuppressWarnings("unused")
     public <mapResp, reduceResp> reduceResp mapReduce(Function<JsonObject, mapResp> mapFunction, Function<List<mapResp>, reduceResp> reduceFunction) {
         return reduceFunction.apply(data().map(mapFunction));
     }

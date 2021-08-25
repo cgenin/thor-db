@@ -212,20 +212,17 @@ public class DynamicView extends ThorEventEmitter {
         return afterSorting();
     }
 
-    public DynamicView startTransaction() {
+    public void startTransaction() {
         cachedresultset = this.resultset.copy().apply(resultset.collection);
-        return this;
     }
 
-    public DynamicView commit() {
+    public void commit() {
         cachedresultset = null;
-        return this;
     }
 
-    public DynamicView rollback() {
+    public void rollback() {
         resultset = cachedresultset;
         persistence();
-        return this;
     }
 
     public void queueSortPhase() {
@@ -267,7 +264,7 @@ public class DynamicView extends ThorEventEmitter {
 
 
     public Future<DynamicView> evaluateDocument() {
-       return Future.of(this::reapplyFilters)
+       return Future.of(DV_EXECUTOR_SERVICE, this::reapplyFilters)
                 .onSuccess(dv -> LOGGER.debug(this.name + " updated from collection change."))
                 .onFailure(th -> LOGGER.error(this.name + " error from collection change.", th));
     }

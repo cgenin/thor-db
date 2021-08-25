@@ -51,7 +51,7 @@ public class Collection extends ThorEventEmitter implements Serializable {
     private List<Index> binaryIndices = List.empty();
     List<Long> idIndex = List.empty();
     private List<Long> dirtyIds = List.empty();
-    private List<String> uniqueNames = List.empty();
+    private List<String> uniqueNames;
     private Set<Transform> transforms = HashSet.empty();
     private List<JsonObject> data = List.empty();
     Constraints constraints = new Constraints();

@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 public class UniqueIndexTest {
 
     @Test
-    public void should_ensure_index() {
+    public void should_integration() {
         Infrastructure infrastructure = mock(Infrastructure.class);
         Thor thor = new Thor(infrastructure, new ThorOptions());
         Collection test = thor.addCollection("test");

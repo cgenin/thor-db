@@ -65,6 +65,7 @@ public class Thor {
         return options;
     }
 
+    @SuppressWarnings("unused")
     public void clearChanges() {
         collections
                 .map(c -> c.changes)
@@ -117,6 +118,7 @@ public class Thor {
     }
 
 
+    @SuppressWarnings("unused")
     public Try<Boolean> deleteDatabase() {
         return infrastructure.deleteDatabase(filename)
                 .onSuccess(b -> {
@@ -203,6 +205,7 @@ public class Thor {
         return collections.find(c -> c.name().equals(collectionName));
     }
 
+    @SuppressWarnings("unused")
     public void loadCollection(Collection collection) {
         collections = collections.append(collection);
     }
